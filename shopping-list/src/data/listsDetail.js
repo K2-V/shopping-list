@@ -1,0 +1,102 @@
+export const MOCK_DATA = [
+    {
+        id: "1",
+        title: "For dinner",
+        owner: "you",
+        members: ["Jane"],
+        archived: true ,
+        items: [
+            { id: "i1", name: "Spaghetti", quantity: 1, unit: "pack", note: "", isDone: false },
+            { id: "i2", name: "Pecorino romano", quantity: 300, unit: "g", note: "", isDone: true },
+            { id: "i3", name: "Eggs", quantity: 10, unit: "pcs", note: "", isDone: false },
+            { id: "i4", name: "Parmigiano", quantity: 300, unit: "g", note: "", isDone: false },
+            { id: "i5", name: "Smoked pancetta", quantity: 200, unit: "g", note: "", isDone: false },
+            { id: "i6", name: "Bananas", quantity: 6, unit: "pcs", note: "", isDone: false },
+            { id: "i7", name: "Greek yogurt", quantity: 2, unit: "pack", note: "low-fat", isDone: false },
+            { id: "i8", name: "Chicken breast", quantity: 500, unit: "g", note: "", isDone: false },
+            { id: "i9", name: "Rice", quantity: 1, unit: "kg", note: "jasmine", isDone: true },
+
+        ],
+    },
+    {
+        id: "2",
+        title: "Grill",
+        owner: "Petr",
+        members: ["you", "Kevin"],
+        archived: false ,
+        items: [
+            { id: "i1", name: "Milk", quantity: 1, unit: "l", note: "", isDone: false },
+            { id: "i2", name: "Bread", quantity: 1, unit: "pc", note: "rye", isDone: true },
+            { id: "i3", name: "Eggs", quantity: 10, unit: "pcs", note: "", isDone: false },
+            { id: "i4", name: "Parmigiano", quantity: 300, unit: "g", note: "", isDone: false },
+            { id: "i5", name: "Smoked pancetta", quantity: 200, unit: "g", note: "", isDone: false },
+            { id: "i6", name: "Bananas", quantity: 6, unit: "pcs", note: "", isDone: false },
+            { id: "i7", name: "Greek yogurt", quantity: 2, unit: "pack", note: "low-fat", isDone: false },
+            { id: "i8", name: "Chicken breast", quantity: 500, unit: "g", note: "", isDone: false },
+            { id: "i9", name: "Rice", quantity: 1, unit: "kg", note: "jasmine", isDone: true },
+
+        ],
+    },
+    {
+        id: "3",
+        title: "Birthday party",
+        owner: "Jana",
+        members: ["you", "Lukas"],
+        archived: false ,
+        items: [
+            { id: "i1", name: "Milk", quantity: 1, unit: "l", note: "", isDone: false },
+            { id: "i2", name: "Bread", quantity: 1, unit: "pc", note: "rye", isDone: true },
+            { id: "i3", name: "Eggs", quantity: 10, unit: "pcs", note: "", isDone: false },
+        ],
+    },
+    {
+        id: "4",
+        title: "Weekly groceries",
+        owner: "you",
+        members: "",
+        archived: false ,
+        items: [
+            { id: "i1", name: "Bananas", quantity: 6, unit: "pcs", note: "", isDone: false },
+            { id: "i2", name: "Greek yogurt", quantity: 2, unit: "pack", note: "low-fat", isDone: false },
+            { id: "i3", name: "Chicken breast", quantity: 500, unit: "g", note: "", isDone: false },
+            { id: "i4", name: "Rice", quantity: 1, unit: "kg", note: "jasmine", isDone: true },
+        ],
+    },
+    {
+        id: "5",
+        title: "Camping trip",
+        owner: "Martin",
+        members: ["you", "Helen"],
+        archived: false ,
+        items: [
+            { id: "i1", name: "Canned beans", quantity: 4, unit: "pcs", note: "", isDone: false },
+            { id: "i2", name: "Matches", quantity: 1, unit: "box", note: "", isDone: false },
+            { id: "i3", name: "Marshmallows", quantity: 2, unit: "bags", note: "", isDone: true },
+        ],
+    },
+    {
+        id: "6",
+        title: "Christmas dinner",
+        owner: "you",
+        members: ["Anna", "Jane"],
+        archived: false ,
+        items: [
+            { id: "i1", name: "Turkey", quantity: 1, unit: "pc", note: "fresh", isDone: false },
+            { id: "i2", name: "Potatoes", quantity: 2, unit: "kg", note: "", isDone: false },
+            { id: "i3", name: "Red wine", quantity: 2, unit: "bottles", note: "dry", isDone: true },
+            { id: "i4", name: "Cranberry sauce", quantity: 1, unit: "jar", note: "", isDone: false },
+        ],
+    },
+    {
+        id: "7",
+        title: "Office supplies",
+        owner: "Eva",
+        members: ["you", "Peter"],
+        archived: false ,
+        items: [
+            { id: "i1", name: "Printer paper", quantity: 3, unit: "packs", note: "A4", isDone: true },
+            { id: "i2", name: "Pens", quantity: 20, unit: "pcs", note: "blue", isDone: false },
+            { id: "i3", name: "Post-it notes", quantity: 5, unit: "pads", note: "multicolor", isDone: false },
+        ],
+    }
+];

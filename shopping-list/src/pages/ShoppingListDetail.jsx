@@ -1,201 +1,290 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Trash2, Plus, ArrowLeft, MoreVertical } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
+import {Trash2, Plus, ArrowLeft, MoreVertical} from "lucide-react";
+import { MOCK_DATA } from "../data/listsDetail.js";
 
-export default function ShoppingListDetail({ list: initialList }) {
+export default function ShoppingList() {
+    const { id } = useParams();
     const navigate = useNavigate();
-
     const [showMenu, setShowMenu] = useState(false);
-    const [list, setList] = useState(initialList);
-    const [items, setItems] = useState(initialList.items || []);
     const [showCompleted, setShowCompleted] = useState(false);
-    const [adding, setAdding] = useState({ name: "", quantity: "", unit: "", note: "" });
 
+    const [lists, setLists] = useState(MOCK_DATA);
+    const [list, setList] = useState(null);
     useEffect(() => {
-        setList({ ...list, items });
-    }, [items]);
+        const found = lists.find(l => String(l.id) === id);
+        if (found) setList(found);
+        else navigate("/");
+    }, [id, lists, navigate]);
 
-    const visibleItems = showCompleted ? items : items.filter((i) => !i.isDone);
+    // Minimal listItems logic for mock data
+    const [adding, setAdding] = useState({ name: "", quantity: "", unit: "", note: "" });
+    const items = list?.items || [];
+    const [localItems, setLocalItems] = useState([]);
+    useEffect(() => {
+        if (list) setLocalItems(list.items || []);
+    }, [list]);
+    const visibleItems = showCompleted ? localItems : localItems.filter((i) => !i.isDone);
+    const doneCount = localItems.filter(i => i.isDone).length;
+    const totalCount = localItems.length;
+    const pieData = [
+        { name: "Completed", value: doneCount },
+        { name: "Pending", value: totalCount - doneCount },
+    ];
+    const COLORS = ["#007535", "#ccc"];
 
-    function toggleDone(itemId) {
-        setItems((prev) =>
-            prev.map((i) => (i.id === itemId ? { ...i, isDone: !i.isDone } : i))
-        );
-    }
-
-    function deleteItem(itemId) {
-        setItems((prev) => prev.filter((i) => i.id !== itemId));
-    }
-
-    function addItem(e) {
+    function handleAddItem(e) {
         e.preventDefault();
-        const name = adding.name.trim();
-        if (!name) return;
+        if (!adding.name) return;
         const newItem = {
-            id: String(Date.now()),
-            name,
-            quantity: adding.quantity ? Number(adding.quantity) : undefined,
-            unit: adding.unit || undefined,
-            note: adding.note || "",
+            id: Date.now(),
+            name: adding.name,
+            quantity: adding.quantity,
+            unit: adding.unit,
+            note: adding.note,
             isDone: false,
         };
-        setItems((prev) => [newItem, ...prev]);
+        setLocalItems(prev => [...prev, newItem]);
         setAdding({ name: "", quantity: "", unit: "", note: "" });
     }
+    function deleteItem(id) {
+        setLocalItems(prev => prev.filter(i => i.id !== id));
+    }
+    function toggleDone(id) {
+        setLocalItems(prev => prev.map(i => i.id === id ? { ...i, isDone: !i.isDone } : i));
+    }
 
-    const handleInvite = () => {
-        const newMember = prompt("Zadej jméno člena k pozvání:");
-        if (!newMember || !newMember.trim()) return;
+    // Handle functions
+    function handleDelete(id) {
+      if (!confirm("Delete this list?")) return;
+      setLists(prev => prev.filter(l => l.id !== id));
+    }
 
-        const updatedMembers = list.members
-            ? [...new Set([...list.members, newMember.trim()])]
-            : [newMember.trim()];
+    function handleRename(id) {
+      const listObj = lists.find(l => l.id === id);
+      if (!listObj) return;
+      const newName = prompt("Enter new name:", listObj.title);
+      if (!newName) return;
+      setLists(prev => prev.map(l => l.id === id ? { ...l, title: newName } : l));
+    }
 
-        setList((prev) => ({ ...prev, members: updatedMembers }));
-    };
+    function handleArchive(id) {
+      setLists(prev => prev.map(l => l.id === id ? { ...l, archived: true } : l));
+    }
 
-    const handleRename = () => {
-        const newName = prompt("Zadej nový název seznamu:", list.title);
-        if (!newName || !newName.trim()) return;
-        setList((prev) => ({ ...prev, title: newName.trim() }));
-    };
+    function handleUnarchive(id) {
+      setLists(prev => prev.map(l => l.id === id ? { ...l, archived: false } : l));
+    }
 
-    const handleArchive = () => setList((prev) => ({ ...prev, archived: true }));
-    const handleUnarchive = () => setList((prev) => ({ ...prev, archived: false }));
+    function handleRemoveMember(id, member) {
+      setLists(prev =>
+        prev.map(l =>
+          l.id === id
+            ? { ...l, members: l.members.filter(m => m !== member) }
+            : l
+        )
+      );
+    }
 
-    const handleDelete = () => {
-        if (!confirm(`Opravdu chceš smazat seznam "${list.title}"?`)) return;
-        navigate("/");
-    };
+    function handleLeave(id) {
+      if (!confirm("Leave this list?")) return;
+      setLists(prev => prev.filter(l => l.id !== id));
+      navigate("/");
+    }
 
-    const handleRemoveMember = (memberToRemove) => {
-        const updatedMembers = list.members.filter((m) => m !== memberToRemove);
-        setList((prev) => ({ ...prev, members: updatedMembers }));
-    };
+    function inviteMember(id, member) {
+      if (!member) return;
+      setLists(prev =>
+        prev.map(l =>
+          l.id === id ? { ...l, members: [...l.members, member] } : l
+        )
+      );
+    }
+
+    if (!list)
+        return (
+            <p className="text-gray-600 p-10 text-center">
+                {"Loading..."}
+            </p>
+        );
 
     return (
-        <div className="min-h-screen w-full bg-[#ededed]">
-            <header className="w-full bg-[#007535] text-white px-6 py-4 rounded-b-3xl mb-6 flex items-center space-x-4">
+        <div className="min-h-screen bg-gray-100 text-gray-900 transition">
+            {/* Header */}
+            <header className="bg-[#007535] text-white px-6 py-4 rounded-b-3xl mb-6 flex items-center space-x-4">
                 <button onClick={() => navigate(-1)} className="hover:opacity-80">
                     <ArrowLeft size={26} />
                 </button>
-                <h1 className="text-3xl font-semibold flex-1">{list.title || list.name}</h1>
+                <h1 className="text-3xl font-semibold flex-1">{list.title}</h1>
             </header>
 
-            <main className="px-6 max-w-3xl mx-auto">
-                <div className="flex items-center justify-between mb-4 relative">
-                    <label className="flex items-center gap-2 text-gray-700">
+            <main className="px-6 max-w-4xl mx-auto space-y-6">
+                {/* Menu */}
+                <div className="flex justify-between items-center relative">
+                    <label className="flex items-center gap-2">
                         <input
                             type="checkbox"
                             checked={showCompleted}
                             onChange={(e) => setShowCompleted(e.target.checked)}
-                            className="w-4 h-4"
                         />
-                        <span>Show completed</span>
+                        {"Show Completed"}
                     </label>
 
                     <div className="flex items-center gap-4">
-                        <span className="text-sm text-gray-500">{visibleItems.length} items</span>
+                        <span className="text-sm text-gray-500">{visibleItems.length} Items</span>
                         <button
                             onClick={() => setShowMenu((prev) => !prev)}
                             className="text-gray-500 hover:text-gray-800"
                             title="More"
-                        >
-                            <MoreVertical size={20} />
+                        ><MoreVertical size={20} />
                         </button>
 
                         {showMenu && (
                             <div className="absolute right-0 top-8 w-40 bg-white border border-gray-200 rounded-lg shadow-md z-10">
                                 {list.owner === "you" ? (
                                     <>
-                                        <button onClick={() => { setShowMenu(false); handleRename(); }} className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100">Rename</button>
-                                        <button onClick={() => { setShowMenu(false); list.archived ? handleUnarchive() : handleArchive(); }} className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100">{list.archived ? "Unarchive" : "Archive"}</button>
-                                        <button onClick={() => { setShowMenu(false); handleInvite(); }} className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100">Invite</button>
-                                        <button onClick={() => { setShowMenu(false); handleDelete(); }} className="w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-red-50">Delete</button>
+                                        <button onClick={() => { setShowMenu(false); handleRename(list.id); }}
+                                                className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100">Rename</button>
+                                        <button onClick={() => { setShowMenu(false); handleArchive(list.id); }}
+                                                className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100">
+                                                Archive
+                                        </button>
+                                        <button onClick={() => inviteMember(list.id, prompt("Enter the name of the new member:"))}
+                                                className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100">Invite</button>
+                                        <button onClick={() => { setShowMenu(false); handleDelete(list.id); }}
+                                                className="w-full px-4 py-2 text-sm text-left text-red-600 hover:bg-red-50">Delete</button>
                                     </>
                                 ) : (
-                                    <button onClick={() => navigate("/")} className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100">Leave</button>
+                                    <button
+                                        onClick={async () => {
+                                            setShowMenu(false);
+                                            await handleLeave(list.id);
+                                            navigate("/");
+                                        }}
+                                        className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100"
+                                    >
+                                        Leave
+                                    </button>
                                 )}
                             </div>
                         )}
                     </div>
                 </div>
 
-                <div className="bg-white rounded-3xl p-6 shadow space-y-3">
-                    {visibleItems.length === 0 ? (
-                        <p className="text-gray-500 text-center">No items</p>
-                    ) : (
-                        visibleItems.map((item) => (
-                            <div key={item.id} className={`flex items-center justify-between border-b text-base p-3 transition ${item.isDone ? "bg-gray-100 line-through opacity-70" : "bg-white"}`}>
-                                <div className="flex items-center gap-3">
-                                    <input
-                                        type="checkbox"
-                                        checked={item.isDone}
-                                        onChange={() => toggleDone(item.id)}
-                                        className="w-4 h-4"
-                                    />
-                                    <div>
-                                        <p className="font-medium text-gray-800">
-                                            {item.name}{" "}
-                                            {item.quantity &&
-                                                `(${item.quantity}${item.unit ? ` ${item.unit}` : ""})`}
-                                        </p>
-                                        {item.note && <p className="text-gray-500 text-sm">{item.note}</p>}
+                {/* Položky */}
+                <div className="flex flex-col lg:flex-row gap-6">
+                    <div className="flex-1 bg-white rounded-3xl p-6 shadow">
+                        {visibleItems.length === 0 ? (
+                            <p className="text-gray-500 text-center">
+                                No items
+                            </p>
+                        ) : (
+                            visibleItems.map((item) => (
+                                <div
+                                    key={item.id}
+                                    className={`flex justify-between items-center border-b border-gray-200 py-2 ${
+                                        item.isDone ? "opacity-70 line-through" : ""
+                                    }`}
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <input
+                                            type="checkbox"
+                                            checked={item.isDone}
+                                            onChange={() => toggleDone(item.id)}
+                                            className="w-4 h-4"
+                                        />
+                                        <div>
+                                            <p className="font-medium text-gray-800">
+                                                {item.name}{" "}
+                                                {item.quantity &&
+                                                    `(${item.quantity}${item.unit ? ` ${item.unit}` : ""})`}
+                                            </p>
+                                            {item.note && (
+                                                <p className="text-gray-600 text-sm">
+                                                    {item.note}
+                                                </p>
+                                            )}
+                                        </div>
                                     </div>
+                                    <button
+                                        onClick={() => deleteItem(item.id)}
+                                        className="text-gray-400 hover:text-red-600"
+                                    ><Trash2 size={18} />
+                                    </button>
                                 </div>
-                                <button onClick={() => deleteItem(item.id)} className="text-gray-500 hover:text-red-600" title="Smazat položku">
-                                    <Trash2 size={18} />
-                                </button>
-                            </div>
-                        ))
-                    )}
+                            ))
+                        )}
+                    </div>
                 </div>
 
-                <form onSubmit={addItem} className="bg-white mt-6 rounded-3xl shadow p-4 flex flex-wrap gap-3 items-center">
+                {/* Přidání položky */}
+                <form
+                    onSubmit={handleAddItem}
+                    className="bg-white rounded-3xl shadow p-4 flex flex-wrap gap-3 mt-6"
+                >
                     <input
                         placeholder="Name *"
                         value={adding.name}
-                        onChange={(e) => setAdding((a) => ({ ...a, name: e.target.value }))}
-                        className="flex-1 text-gray-500 border rounded-xl p-2"
+                        onChange={(e) =>
+                            setAdding((a) => ({ ...a, name: e.target.value }))
+                        }
+                        className="flex-1 border border-gray-300 rounded-lg p-2"
                         required
                     />
                     <input
                         placeholder="Qty"
                         type="number"
                         value={adding.quantity}
-                        onChange={(e) => setAdding((a) => ({ ...a, quantity: e.target.value }))}
-                        className="w-24 text-gray-500 border rounded-xl p-2"
+                        onChange={(e) =>
+                            setAdding((a) => ({ ...a, quantity: e.target.value }))
+                        }
+                        className="w-24 border border-gray-300 rounded-lg p-2"
                     />
                     <input
                         placeholder="Unit"
                         value={adding.unit}
-                        onChange={(e) => setAdding((a) => ({ ...a, unit: e.target.value }))}
-                        className="w-24 text-gray-500 border rounded-xl p-2"
+                        onChange={(e) =>
+                            setAdding((a) => ({ ...a, unit: e.target.value }))
+                        }
+                        className="w-24 border border-gray-300 rounded-lg p-2"
                     />
                     <input
                         placeholder="Note"
                         value={adding.note}
-                        onChange={(e) => setAdding((a) => ({ ...a, note: e.target.value }))}
-                        className="flex-1 text-gray-500 border rounded-xl p-2"
+                        onChange={(e) =>
+                            setAdding((a) => ({ ...a, note: e.target.value }))
+                        }
+                        className="flex-1 border border-gray-300 rounded-lg p-2"
                     />
-                    <button type="submit" className="bg-[#007535] text-white px-4 py-2 rounded-xl hover:bg-[#005a28] flex items-center gap-2">
-                        <Plus size={18} /> Add
+                    <button
+                        type="submit"
+                        className="bg-[#007535] text-white px-4 py-2 rounded-lg hover:bg-[#008f47] flex items-center gap-2"
+                    ><Plus size={18} /> Add
                     </button>
                 </form>
-
                 <div className="mt-6 bg-white rounded-xl p-4 shadow">
-                    <h2 className="text-lg font-semibold mb-2">Members</h2>
+                    <h2 className="text-lg font-semibold mb-2 text-gray-800">Members</h2>
                     <ul className="space-y-1">
-                        {list.members?.map((member) => (
-                            <li key={member} className="flex justify-between items-center border-b py-1">
-                                <span>{member}</span>
-                                {list.owner === "you" && member !== "you" && (
-                                    <button onClick={() => handleRemoveMember(member)} className="text-red-600 text-sm hover:underline">
-                                        Odebrat
-                                    </button>
-                                )}
-                            </li>
-                        ))}
+                        {Array.isArray(list.members) && list.members.length > 0 ? (
+                            list.members.map((member) => (
+                                <li
+                                    key={member}
+                                    className="flex justify-between items-center border-b border-gray-200 py-1"
+                                >
+                                    <span>{member}</span>
+                                    {list.owner === "you" && member !== "you" && (
+                                        <button
+                                            onClick={() => handleRemoveMember(list.id, member)}
+                                            className="text-red-600 text-sm hover:underline"
+                                        >
+                                            Remove
+                                        </button>
+                                    )}
+                                </li>
+                            ))
+                        ) : (
+                            <p className="text-gray-500">No members</p>
+                        )}
                     </ul>
                 </div>
             </main>
