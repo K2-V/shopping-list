@@ -19,7 +19,6 @@ export default function ShoppingList() {
 
     // Minimal listItems logic for mock data
     const [adding, setAdding] = useState({ name: "", quantity: "", unit: "", note: "" });
-    const items = list?.items || [];
     const [localItems, setLocalItems] = useState([]);
     useEffect(() => {
         if (list) setLocalItems(list.items || []);
@@ -243,7 +242,6 @@ export default function ShoppingList() {
                     ><Plus size={18} /> Add
                     </button>
                 </form>
-
                 {/*Members*/}
                 <div className="mt-6 bg-white rounded-xl p-4 shadow">
                     <h2 className="text-lg font-semibold mb-2 text-gray-800">Members</h2>
