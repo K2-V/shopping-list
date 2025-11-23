@@ -5,6 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c3c4d2f-ea5f-4b3e-9498-a1cc58641503" name="Changes" comment="version 0.4.0">
+      <change afterPath="$PROJECT_DIR$/shopping-list/src/api.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-list/src/data/db.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-list/src/hooks/useListActions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-list/src/hooks/useListItems.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-list/src/hooks/useShoppingLists.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shopping-list/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopping-list/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/shopping-list/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopping-list/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/shopping-list/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopping-list/src/data/listsDetail.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/shopping-list/src/pages/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/shopping-list/src/pages/Home.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shopping-list/src/pages/ShoppingListDetail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/shopping-list/src/pages/ShoppingListDetail.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -21,6 +32,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -51,15 +67,17 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "HW-4",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/Users/victormingachev/Desktop/Frontend shoppinglist/shopping-list 0.3.0/shopping-list/src/pages",
+    "last_opened_file_path": "/Users/victormingachev/WebstormProjects/shopping-list-03/shopping-list/src",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "npm.dev.executor": "Run",
+    "npm.dev:server.executor": "Run",
+    "npm.dev:vite.executor": "Run",
     "to.speed.mode.migration.done": "true",
     "ts.external.directory.path": "/Users/victormingachev/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
     "vue.rearranger.settings.migration": "true"
@@ -67,14 +85,18 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/shopping-list/src" />
+      <recent name="$PROJECT_DIR$/shopping-list/src/data" />
       <recent name="$PROJECT_DIR$/shopping-list/src/pages" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/shopping-list/src/data" />
+      <recent name="$PROJECT_DIR$/shopping-list/src" />
       <recent name="$PROJECT_DIR$/shopping-list" />
       <recent name="$PROJECT_DIR$/shopping-list/public" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/shopping-list/package.json" />
       <command value="run" />
@@ -85,9 +107,31 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="dev:server" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/shopping-list/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev:server" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:vite" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/shopping-list/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev:vite" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="npm.dev" />
+        <item itemvalue="npm.dev:server" />
+        <item itemvalue="npm.dev:vite" />
       </list>
     </recent_temporary>
   </component>
@@ -112,7 +156,8 @@
       <workItem from="1761073970376" duration="29000" />
       <workItem from="1761074110936" duration="182000" />
       <workItem from="1762438166024" duration="1606000" />
-      <workItem from="1763887967280" duration="6934000" />
+      <workItem from="1763887967280" duration="7286000" />
+      <workItem from="1764682326015" duration="15110000" />
     </task>
     <task id="LOCAL-00001" summary="version 0.4.0">
       <option name="closed" value="true" />
@@ -122,7 +167,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763894632344</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="version 0.4.0">
+      <option name="closed" value="true" />
+      <created>1763895255951</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1763895255951</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
