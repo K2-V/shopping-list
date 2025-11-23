@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c3c4d2f-ea5f-4b3e-9498-a1cc58641503" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/shopping-list/src/components/NewListModal.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping-list/src/data/listsDetail.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopping-list/src/pages/Home.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopping-list/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/shopping-list/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shopping-list/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/shopping-list/src/App.jsx" afterDir="false" />
+    <list default="true" id="9c3c4d2f-ea5f-4b3e-9498-a1cc58641503" name="Changes" comment="version 0.4.0">
       <change beforePath="$PROJECT_DIR$/shopping-list/src/pages/ShoppingListDetail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/shopping-list/src/pages/ShoppingListDetail.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -118,11 +112,24 @@
       <workItem from="1761073970376" duration="29000" />
       <workItem from="1761074110936" duration="182000" />
       <workItem from="1762438166024" duration="1606000" />
-      <workItem from="1763887967280" duration="6294000" />
+      <workItem from="1763887967280" duration="6934000" />
     </task>
+    <task id="LOCAL-00001" summary="version 0.4.0">
+      <option name="closed" value="true" />
+      <created>1763894632344</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1763894632344</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="version 0.4.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="version 0.4.0" />
   </component>
 </project>

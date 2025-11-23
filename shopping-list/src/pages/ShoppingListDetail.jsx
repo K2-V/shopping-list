@@ -25,13 +25,6 @@ export default function ShoppingList() {
         if (list) setLocalItems(list.items || []);
     }, [list]);
     const visibleItems = showCompleted ? localItems : localItems.filter((i) => !i.isDone);
-    const doneCount = localItems.filter(i => i.isDone).length;
-    const totalCount = localItems.length;
-    const pieData = [
-        { name: "Completed", value: doneCount },
-        { name: "Pending", value: totalCount - doneCount },
-    ];
-    const COLORS = ["#007535", "#ccc"];
 
     function handleAddItem(e) {
         e.preventDefault();
@@ -54,7 +47,6 @@ export default function ShoppingList() {
         setLocalItems(prev => prev.map(i => i.id === id ? { ...i, isDone: !i.isDone } : i));
     }
 
-    // Handle functions
     function handleDelete(id) {
       if (!confirm("Delete this list?")) return;
       setLists(prev => prev.filter(l => l.id !== id));
@@ -70,10 +62,6 @@ export default function ShoppingList() {
 
     function handleArchive(id) {
       setLists(prev => prev.map(l => l.id === id ? { ...l, archived: true } : l));
-    }
-
-    function handleUnarchive(id) {
-      setLists(prev => prev.map(l => l.id === id ? { ...l, archived: false } : l));
     }
 
     function handleRemoveMember(id, member) {
@@ -103,9 +91,7 @@ export default function ShoppingList() {
 
     if (!list)
         return (
-            <p className="text-gray-600 p-10 text-center">
-                {"Loading..."}
-            </p>
+            <p className="text-gray-600 p-10 text-center">Loading...</p>
         );
 
     return (
@@ -119,7 +105,7 @@ export default function ShoppingList() {
             </header>
 
             <main className="px-6 max-w-4xl mx-auto space-y-6">
-                {/* Menu */}
+                {/*Filte and Vertical Menu*/}
                 <div className="flex justify-between items-center relative">
                     <label className="flex items-center gap-2">
                         <input
@@ -127,7 +113,7 @@ export default function ShoppingList() {
                             checked={showCompleted}
                             onChange={(e) => setShowCompleted(e.target.checked)}
                         />
-                        {"Show Completed"}
+                        Show Completed
                     </label>
 
                     <div className="flex items-center gap-4">
@@ -146,9 +132,7 @@ export default function ShoppingList() {
                                         <button onClick={() => { setShowMenu(false); handleRename(list.id); }}
                                                 className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100">Rename</button>
                                         <button onClick={() => { setShowMenu(false); handleArchive(list.id); }}
-                                                className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100">
-                                                Archive
-                                        </button>
+                                                className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100">Archive</button>
                                         <button onClick={() => inviteMember(list.id, prompt("Enter the name of the new member:"))}
                                                 className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100">Invite</button>
                                         <button onClick={() => { setShowMenu(false); handleDelete(list.id); }}
@@ -171,7 +155,7 @@ export default function ShoppingList() {
                     </div>
                 </div>
 
-                {/* Položky */}
+                {/*Items*/}
                 <div className="flex flex-col lg:flex-row gap-6">
                     <div className="flex-1 bg-white rounded-3xl p-6 shadow">
                         {visibleItems.length === 0 ? (
@@ -217,7 +201,7 @@ export default function ShoppingList() {
                     </div>
                 </div>
 
-                {/* Přidání položky */}
+                {/*Adding Items*/}
                 <form
                     onSubmit={handleAddItem}
                     className="bg-white rounded-3xl shadow p-4 flex flex-wrap gap-3 mt-6"
@@ -238,37 +222,35 @@ export default function ShoppingList() {
                         onChange={(e) =>
                             setAdding((a) => ({ ...a, quantity: e.target.value }))
                         }
-                        className="w-24 border border-gray-300 rounded-lg p-2"
-                    />
+                        className="w-24 border border-gray-300 rounded-lg p-2"/>
                     <input
                         placeholder="Unit"
                         value={adding.unit}
                         onChange={(e) =>
                             setAdding((a) => ({ ...a, unit: e.target.value }))
                         }
-                        className="w-24 border border-gray-300 rounded-lg p-2"
-                    />
+                        className="w-24 border border-gray-300 rounded-lg p-2"/>
                     <input
                         placeholder="Note"
                         value={adding.note}
                         onChange={(e) =>
                             setAdding((a) => ({ ...a, note: e.target.value }))
                         }
-                        className="flex-1 border border-gray-300 rounded-lg p-2"
-                    />
+                        className="flex-1 border border-gray-300 rounded-lg p-2"/>
                     <button
                         type="submit"
                         className="bg-[#007535] text-white px-4 py-2 rounded-lg hover:bg-[#008f47] flex items-center gap-2"
                     ><Plus size={18} /> Add
                     </button>
                 </form>
+
+                {/*Members*/}
                 <div className="mt-6 bg-white rounded-xl p-4 shadow">
                     <h2 className="text-lg font-semibold mb-2 text-gray-800">Members</h2>
                     <ul className="space-y-1">
                         {Array.isArray(list.members) && list.members.length > 0 ? (
                             list.members.map((member) => (
-                                <li
-                                    key={member}
+                                <li key={member}
                                     className="flex justify-between items-center border-b border-gray-200 py-1"
                                 >
                                     <span>{member}</span>
@@ -276,8 +258,7 @@ export default function ShoppingList() {
                                         <button
                                             onClick={() => handleRemoveMember(list.id, member)}
                                             className="text-red-600 text-sm hover:underline"
-                                        >
-                                            Remove
+                                        >Remove
                                         </button>
                                     )}
                                 </li>
