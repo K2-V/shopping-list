@@ -4,13 +4,19 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev:clean": "concurrently \"npm run dev:vite\" \"npm run start:clean\"",
+    "dev:mock": "concurrently \"npm run dev:vite\" \"npm run start:mock\"",
+    "dev:vite": "vite",
+    "start:mock": "USE_MOCK=true node mock-init.js && json-server --watch db.json --port 3000",
+    "start:clean": "USE_MOCK=false node mock-init.js && json-server --watch db.json --port 3000",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.14",
+    "concurrently": "^9.2.1",
+    "json-server": "^1.0.0-beta.3",
     "lucide-react": "^0.546.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
