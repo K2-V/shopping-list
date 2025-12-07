@@ -1,4 +1,3 @@
-// api.js
 const API_URL = "http://localhost:3000/shoppingLists";
 
 async function handleResponse(res, errorMessage) {
@@ -9,25 +8,19 @@ async function handleResponse(res, errorMessage) {
     return res.json();
 }
 
-/**
- * 🧾 Načtení všech seznamů
- */
+/** Fetch all shopping lists */
 export async function getShoppingLists() {
     const res = await fetch(API_URL);
     return handleResponse(res, "Failed to fetch shopping lists");
 }
 
-/**
- * 🧾 Načtení jednoho seznamu podle ID
- */
+/** Fetch a shopping list by ID */
 export async function getShoppingListById(id) {
     const res = await fetch(`${API_URL}/${id}`);
     return handleResponse(res, "Failed to fetch shopping list");
 }
 
-/**
- * ➕ Přidání nového seznamu
- */
+/** Add a new shopping list */
 export async function addShoppingList(list) {
     const res = await fetch(API_URL, {
         method: "POST",
@@ -37,9 +30,7 @@ export async function addShoppingList(list) {
     return handleResponse(res, "Failed to add list");
 }
 
-/**
- * 🔁 Částečná aktualizace seznamu (PATCH)
- */
+/** Partial update of a shopping list (PATCH) */
 export async function updateShoppingList(id, updatedData) {
     const res = await fetch(`${API_URL}/${id}`, {
         method: "PATCH",
@@ -49,9 +40,7 @@ export async function updateShoppingList(id, updatedData) {
     return handleResponse(res, "Failed to update list");
 }
 
-/**
- * 🗑️ Smazání seznamu
- */
+/** Delete a shopping list */
 export async function deleteShoppingList(id) {
     const res = await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
@@ -62,11 +51,3 @@ export async function deleteShoppingList(id) {
     }
     return true;
 }
-
-/**
- * ✅ Aliasy (pokud máš někde starší importy)
- */
-export {
-    deleteShoppingList as deleteList,
-    updateShoppingList as updateList,
-};

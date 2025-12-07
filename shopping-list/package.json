@@ -4,9 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"npm run dev:vite\" \"npm run dev:server\"",
+    "dev:clean": "concurrently \"npm run dev:vite\" \"npm run start:clean\"",
+    "dev:mock": "concurrently \"npm run dev:vite\" \"npm run start:mock\"",
     "dev:vite": "vite",
-    "dev:server": "json-server --watch src/data/db.json --port 3000",
+    "start:mock": "USE_MOCK=true node mock-init.js && json-server --watch db.json --port 3000",
+    "start:clean": "USE_MOCK=false node mock-init.js && json-server --watch db.json --port 3000",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
